@@ -15,8 +15,8 @@
 
         <!-- Поле для ввода НОМЕРА КАРТЫ -->
         <div class="number-container">
-            <input type="text" placeholder="Номер карты" v-model="cardNumber" v-bind:class="{ 'input-ok': statOk, 'input-err': statERR}"></input>
-            <div class="status" v-bind:class="{ 'status-ok': statOk, 'status-err': statERR}"></div>
+            <input type="text" placeholder="Номер карты" v-model="cardNumber" v-bind:class="{ 'input-ok': isNumberValid, 'input-err': statERR}"></input>
+            <div class="status" v-bind:class="{ 'status-ok': isNumberValid, 'status-err': statERR}"></div>
         </div>
 
         <!-- Поле для ввода ИМЕНИ ДЕРЖАТЕЛЯ -->
@@ -56,6 +56,30 @@
                         return false
                     }
                 },
+
+                isNumberValid(){
+                    let num = this.cardNumber;
+                    // Алгоритм Луна
+                    let sum = 0;
+                    if(num.length==16){
+                        for(let i=num.length-1, j=1; i>=0; i--, j++){
+                            if(j%2==0){
+                                let mul = parseInt(num[i])*2;
+                                if(mul<10){
+                                    sum += mul;
+                                }else{
+                                    sum += mul%10 + Math.floor(mul/10);
+                                }                        
+                            }else{
+                                sum += parseInt(num[i]);
+                            }
+                        }
+                        return sum%10==0;
+                    }else{
+                        return false;
+                    }                    
+                },
+
 
 
                paySys(){
