@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CardChecker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="card" id="app">
+
+        <!-- Здесь будет выводиться ЛОГОТИП БАНКА -->
+        <div class="bank">
+            <img v-bind:src='bankSys'>
+        </div>
+
+        <!-- Поле для ввода НОМЕРА КАРТЫ -->
+        <div class="number-container">
+            <input type="text" placeholder="Номер карты" v-model="cardNumber" v-bind:class="{ 'input-ok': statOk, 'input-err': statERR}"></input>
+            <div class="status" v-bind:class="{ 'status-ok': statOk, 'status-err': statERR}"></div>
+        </div>
+
+        <!-- Поле для ввода ИМЕНИ ДЕРЖАТЕЛЯ -->
+        <div class="name-container">
+            <input type="text" placeholder="Имя держателя">
+            <div class="status"></div>
+        </div>
+
+        <!-- Логотип ПЛАТЕЖНОЙ СИСТЕМЫ -->
+        <div class="pay-system">
+            <img v-bind:src='paySys'>
+        </div>
+            
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el:'#app',
+            data: {
+                cardNumber: '',
+                
+            },
+            computed: {
+                
+                statOk(){
+                    if (this.cardNumber.length==16) {
+                        return true
+                    } else {
+                        return false
+                    }
+                },
+                statERR(){
+                    if (this.cardNumber.length!=16) {
+                        return true
+                    } else {
+                        return false
+                    }
+                },
+
+
+               paySys(){
+                    let frst_num = this.cardNumber[0];
+                    switch(frst_num){
+                        case '2':
+                            return'img/systems/mir.png';
+                        case '3':
+                            return 'img/systems/american-exp.png';
+                        case '4':
+                            return 'img/systems/visa.png';
+                        case '5':
+                            return 'img/systems/mastercard.png';
+                        case '6':
+                            return 'img/systems/maestro.png';
+                    }
+                },
+
+                bankSys(){
+                    let binNum = this.cardNumber.substring(0, 5)
+                    if (binNum == '521178' || binNum == '548673' || binNum ==  '548601' || binNum == '415428' || binNum == '676371' || binNum == '477964' || binNum =='479004') {
+                        return 'img/banks/alpha.png'
+                    } else if (binNum == '427229' || binNum == '527883' || binNum == '447520') {
+                        return 'img/banks/vtb.png'
+                    } else if (binNum == '548999' || binNum == '526483') {
+                        return 'img/banks/gazprombank.png'
+                    } else if (binNum == '533736' || binNum == '540616') {
+                        return 'img/banks/mts-bank.png'
+                    } else if (binNum == '440503' || binNum == '554761') {
+                        return 'img/banks/rosbank.png'
+                    } else if (binNum == '434146' || binNum == '405870' || binNum == '544573' || binNum == '532301') {
+                        return 'img/banks/otkrytie.png'
+                    } else if (binNum == '513691' || binNum == '510047') {
+                        return 'img/banks/russian_standart.png'
+                    } else if (binNum == '462730' || binNum == '462729') {
+                        return 'img/banks/raiffaizen.png'
+                     } else if (binNum == '521324' || binNum == '437773') {
+                        return 'img/banks/tinkoff.png'
+                    }  else {
+                        return 'img/banks/sberbank.png'
+                    }     
+                },
+            }
+
+        })
+    </script>
+</body>
+</html>
