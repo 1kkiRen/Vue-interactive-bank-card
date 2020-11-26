@@ -21,8 +21,8 @@
 
         <!-- Поле для ввода ИМЕНИ ДЕРЖАТЕЛЯ -->
         <div class="name-container">
-            <input type="text" placeholder="Имя держателя">
-            <div class="status"></div>
+            <input type="text" placeholder="Имя держателя" v-model="userName" v-bind:class="{ 'input-ok': nameOK }">
+            <div class="status" v-bind:class="{ 'status-ok': nameOK}"></div>
         </div>
 
         <!-- Логотип ПЛАТЕЖНОЙ СИСТЕМЫ -->
@@ -38,7 +38,7 @@
             el:'#app',
             data: {
                 cardNumber: '',
-                
+                userName: ''
             },
             computed: {
                 
@@ -98,6 +98,34 @@
                         return 'img/banks/sberbank.png'
                     }     
                 },
+                nameOK(){
+                    let flag = false
+                    let still_flag = true
+                    let correct_simb = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ '
+                    for (let i = 0; i < this.userName.length - 1; i++) {
+                        for (let j = 0; j < correct_simb.length-1; j++) {
+                            if(correct_simb[j] == this.userName[i]){
+                                flag = true
+                                break
+                            }
+                            
+                        }
+                        if (flag){
+                            still_flag = true
+                        } else{
+                            still_flag = false
+                            break
+                        }
+                        flag = false
+                        
+                    }
+                    if(still_flag){
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+
             }
 
         })
